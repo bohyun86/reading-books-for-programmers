@@ -37,3 +37,109 @@
 <p>분리된 추상 계층과 구현 계층 독립적인 확장이 가능</p>
 <h4>단점</h4>
 <p>추상화를 통해 코드를 분리할 경우 설계가 복잡해짐</p>
+
+## Implementor Interface
+
+```java
+// Implementor 인터페이스
+interface Device {
+    void turnOn();
+    void turnOff();
+    void setVolume(int volume);
+}
+
+// ConcreteImplementor 클래스
+class TV implements Device {
+    private int volume;
+
+    @Override
+    public void turnOn() {
+        System.out.println("TV is turned on.");
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("TV is turned off.");
+    }
+
+    @Override
+    public void setVolume(int volume) {
+        this.volume = volume;
+        System.out.println("TV volume set to " + volume);
+    }
+}
+
+class Radio implements Device {
+    private int volume;
+
+    @Override
+    public void turnOn() {
+        System.out.println("Radio is turned on.");
+    }
+
+    @Override
+    public void turnOff() {
+        System.out.println("Radio is turned off.");
+    }
+
+    @Override
+    public void setVolume(int volume) {
+        this.volume = volume;
+        System.out.println("Radio volume set to " + volume);
+    }
+}
+
+// Abstraction 클래스
+abstract class RemoteControl {
+    protected Device device;
+
+    public RemoteControl(Device device) {
+        this.device = device;
+    }
+
+    public void turnOn() {
+        device.turnOn();
+    }
+
+    public void turnOff() {
+        device.turnOff();
+    }
+
+    public void setVolume(int volume) {
+        device.setVolume(volume);
+    }
+}
+
+// RefinedAbstraction 클래스
+class AdvancedRemoteControl extends RemoteControl {
+
+    public AdvancedRemoteControl(Device device) {
+        super(device);
+    }
+
+    public void mute() {
+        device.setVolume(0);
+        System.out.println("Device is muted.");
+    }
+}
+
+// 클라이언트 코드
+public class BridgePatternExample {
+    public static void main(String[] args) {
+        Device tv = new TV();
+        RemoteControl tvRemote = new RemoteControl(tv);
+        
+        tvRemote.turnOn();
+        tvRemote.setVolume(30);
+        tvRemote.turnOff();
+
+        Device radio = new Radio();
+        AdvancedRemoteControl radioRemote = new AdvancedRemoteControl(radio);
+
+        radioRemote.turnOn();
+        radioRemote.setVolume(20);
+        radioRemote.mute();
+        radioRemote.turnOff();
+    }
+}
+
