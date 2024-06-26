@@ -18,3 +18,79 @@
     - 설계가 복잡해질 수 있음
     - 클라이언트 코드가 객체들의 구조를 알아야 함
     - 객체들이 동일한 인터페이스를 사용하지 않을 경우 복합체 패턴을 사용할 수 없음
+
+```
+// Graphic.java
+interface Graphic {
+    void print();
+}
+
+// Ellipse.java
+class Ellipse implements Graphic {
+
+    @Override
+    public void print() {
+        System.out.println("Ellipse");
+    }
+}
+
+// CompositeGraphic.java
+import java.util.ArrayList;
+import java.util.List;
+
+class CompositeGraphic implements Graphic {
+
+    // Collection of child graphics.
+    private List<Graphic> childGraphics = new ArrayList<>();
+
+    // Adds the graphic to the composition.
+    public void add(Graphic graphic) {
+        childGraphics.add(graphic);
+    }
+
+    // Removes the graphic from the composition.
+    public void remove(Graphic graphic) {
+        childGraphics.remove(graphic);
+    }
+
+    // Prints the graphic.
+    @Override
+    public void print() {
+        for (Graphic graphic : childGraphics) {
+            graphic.print();
+        }
+    }
+}
+
+// CompositeDemo.java
+public class CompositeDemo {
+
+    public static void main(String[] args) {
+        // Initialize four ellipses
+        Ellipse ellipse1 = new Ellipse();
+        Ellipse ellipse2 = new Ellipse();
+        Ellipse ellipse3 = new Ellipse();
+        Ellipse ellipse4 = new Ellipse();
+
+        // Initialize three composite graphics
+        CompositeGraphic graphic = new CompositeGraphic();
+        CompositeGraphic graphic1 = new CompositeGraphic();
+        CompositeGraphic graphic2 = new CompositeGraphic();
+
+        // Composes the graphics
+        graphic1.add(ellipse1);
+        graphic1.add(ellipse2);
+        graphic1.add(ellipse3);
+
+        graphic2.add(ellipse4);
+
+        graphic.add(graphic1);
+        graphic.add(graphic2);
+
+        // Prints the complete graphic (four times the string "Ellipse").
+        graphic.print();
+    }
+}
+
+
+```
