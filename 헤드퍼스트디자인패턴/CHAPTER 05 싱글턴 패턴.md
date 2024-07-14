@@ -30,6 +30,7 @@ public class Singleton {
     }
 }
 ```
+
 ## enum 싱글턴 패턴(Enum Singleton Pattern)
 
 - enum 싱글턴 패턴은 가장 간단하고 안전한 싱글턴 패턴이다.
